@@ -1,27 +1,28 @@
+from flask import Flask, render_template
+from flask_pymongo import PyMongo
+import scrape_mars
 
-from splinter import Browser
-from bs4 import BeautifulSoup
-from webdriver_manager.chrome import ChromeDriverManager
+app = Flask(__name__)
 
+# flask_pymongo to setup mongo connection
+app.config["MONGO_URI"] = "mongodb://127.0.0.1:27017"
+mongo = PyMongo(app)
 
+@app.route("/")
+def index():
+    data = mongo.db.mars_facts.find_one()
+    return render_template("index.html")
+    
+    
+@app.route("/scrape")    
 def scrape():
-    # browser = init_browser()
-    executable_path = {'executable_path': ChromeDriverManager().install()}
-    browser = Browser('chrome', **executable_path, headless=False)
+    
+    mars_data = scrape_mars.scrape_info()
+    
+    # Update mongo database using update and upsert = True
+    mongo.db.mars_facts.update({}, mars_data, upsert = True)
+    
+    return redirect("/")
+if __name__ == "__main__":
+    app.run(debug=True)
 
-    listings = {}
-
-    url = "https://redplanetscience.com/"
-    browser.visit(url)
-
-    html = browser.html
-    news_soup = BeautifulSoup(html, "html.parser")
-
-    listings["headline"] = soup.find("a", class_="title").get_text()
-    listings["price"] = soup.find("h4", class_="price").get_text()
-    listings["reviews"] = soup.find("p", class_="pull-right").get_text()
-
-    # Quit the browser
-    browser.quit()
-
-    return listings
