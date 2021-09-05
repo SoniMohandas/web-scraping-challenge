@@ -22,10 +22,14 @@ def index():
 def scrape():
     
     mars_data = mongo.db.mars_data
+    
+    # Run the scrape function
     mars_collection = scrape_mars.scrape()
     
     # Update mongo database using update and upsert = True
     mongo.db.mars_data.update({},mars_collection, upsert=True)
+    
+    # Redirect to home page
     return redirect("/")
 
 if __name__ == "__main__":

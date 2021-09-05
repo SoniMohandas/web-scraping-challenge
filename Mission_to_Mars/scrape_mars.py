@@ -7,6 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 # Set executable path and initialize chrome browser
 executable_path = {"executable_path": r"C:\Users\Soni Mohandas\.wdm\drivers\chromedriver\win32\92.0.4515.107\chromedriver.exe"}
+
 # executable_path = {'executable_path': ChromeDriverManager().install()}
 browser = Browser('chrome', **executable_path, headless=False)
 
@@ -18,11 +19,14 @@ def marsNews(browser):
     html = browser.html
     soup = bs(html, "html.parser")
     
-    # Finding first news title using beautifulsoup
-    news_title = soup.find("div", class_="content_title").get_text()
+    # Scrate all news
+    news=soup.select_one("div", id_='news')
+
+    # Find first news title using beautifulsoup
+    news_title = news.find("div", class_="content_title").get_text()
         
-    # Finding news title paragraph using beautifulsoup
-    news_para = soup.find("div", class_="article_teaser_body").get_text()
+    # Find first news title paragraph using beautifulsoup
+    news_para = news.find("div", class_="article_teaser_body").get_text()
     
     # Return news title and news para
     return news_title, news_para
@@ -110,4 +114,4 @@ def scrape():
     return mars_data
 
 if __name__=="__main__":
-    print(scrape())
+    app.run(debug=True)
