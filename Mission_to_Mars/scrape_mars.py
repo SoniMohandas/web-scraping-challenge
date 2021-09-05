@@ -1,6 +1,7 @@
 # Dependencies
 import pandas as pd
 from splinter import Browser
+from pymongo import MongoClient
 from bs4 import BeautifulSoup as bs
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -37,11 +38,18 @@ def marsImage(browser):
     
 def marsFacts():
     # Pandas to scrape the table containing facts about Mars Diameter, mass, etc
+    
     url = "https://galaxyfacts-mars.com"
     tables = pd.read_html(url)
     
     # Access 2nd table content
     mars_facts_df = tables[1]
+    
+    # Adding column names
+    mars_facts_df.columns = ["Mars_Features", "Values"]
+    
+    # Set parameters as index
+#     mars_facts_df.set_index("Mars_Features", inplace=True)
     
     # Return table values
     return mars_facts_df.to_html()
