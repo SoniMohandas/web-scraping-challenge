@@ -2,6 +2,9 @@
 from flask import Flask, render_template
 from flask_pymongo import PyMongo
 import scrape_mars
+from bson.codec_options import CodecOptions
+from flask import redirect
+
 
 app = Flask(__name__)
 
@@ -22,8 +25,8 @@ def scrape():
     mars_collection = scrape_mars.scrape()
     
     # Update mongo database using update and upsert = True
-    mars_data.update({}, mars_collection, upsert=True)
-    return ('Scraping successful')
+    mongo.db.mars_data.update({},mars_collection, upsert=True)
+    return redirect("/")
 
 if __name__ == "__main__":
     app.run(debug=True)

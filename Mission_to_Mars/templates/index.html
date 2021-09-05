@@ -21,12 +21,13 @@
                 <div class="media">
                     <div class="media-body">
                         <h4>Latest Mars News</h4>
-                        <h5 style="color: #DC143C">{{mars_data.news_title}}</h5>
-                        <p style="color: #8B0000">{{mars_data.news_para}}</p>
+                        <h5 style="color: #f8e057">{{mars_data.news_title}}</h5>
+                        <p style="color: #e9dc68">{{mars_data.news_para}}</p>
                     </div>
                 </div>
             </div>
-        </div>   
+        </div> 
+        <br><br><br>  
         <!-- JPL Mars Space Images - Featured Image -->
         <div class="container">
             <div class="row" id="mars-featured-image">
@@ -52,11 +53,11 @@
             <hr>
             <div class="col-md-12">
                 <div class="row" id="mars-hemispheres">
-                    {% for hemisphere in mars_data.hemisphere_image_urls %}
+                    {% for hemisphere in mars_data.hemisphere_image_url %}
                     <div class="col-md-6">
                         <div class="card text-white bg-danger" style="margin: 30px;">
                             <!-- If Images are False/None/Non-Existent, Then Default to Error Message -->
-                            <img class="card-img-top" src="{{hemisphere.img_urls | default('static/images/error.png', true)}}" alt="..."/>
+                            <img class="card-img-top" src="{{hemisphere.image_url | default('static/images/error.png', true)}}" alt="..."/>
                             <div class="card-body">
                                 <p class="card-text">{{hemisphere.title}}</p>
                             </div>

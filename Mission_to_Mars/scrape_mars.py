@@ -44,7 +44,7 @@ def marsFacts():
     mars_facts_df = tables[1]
     
     # Return table values
-    return mars_facts_df
+    return mars_facts_df.to_html()
 
 def marsHemispheres(browser):
     # Obtain high resolution images for each of Mar's hemispheres
@@ -105,5 +105,5 @@ def scrape():
     # Return results
     return mars_data
 
-if __name__=="__main__":
-    print(scrape())
+# if __name__=="__main__":
+#     print(scrape())
