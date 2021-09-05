@@ -19,10 +19,10 @@ def marsNews(browser):
     soup = bs(html, "html.parser")
     
     # Finding first news title using beautifulsoup
-    news_title = soup.select_one("div.content_title").getText()
+    news_title = soup.find("div", class_="content_title").get_text()
         
     # Finding news title paragraph using beautifulsoup
-    news_para = soup.select_one("div.article_teaser_body").getText()
+    news_para = soup.find("div", class_="article_teaser_body").get_text()
     
     # Return news title and news para
     return news_title, news_para
@@ -38,7 +38,6 @@ def marsImage(browser):
     
 def marsFacts():
     # Pandas to scrape the table containing facts about Mars Diameter, mass, etc
-    
     url = "https://galaxyfacts-mars.com"
     tables = pd.read_html(url)
     
@@ -47,9 +46,6 @@ def marsFacts():
     
     # Adding column names
     mars_facts_df.columns = ["Mars_Features", "Values"]
-    
-    # Set parameters as index
-#     mars_facts_df.set_index("Mars_Features", inplace=True)
     
     # Return table values
     return mars_facts_df.to_html()
@@ -113,5 +109,5 @@ def scrape():
     # Return results
     return mars_data
 
-# if __name__=="__main__":
-#     print(scrape())
+if __name__=="__main__":
+    print(scrape())
