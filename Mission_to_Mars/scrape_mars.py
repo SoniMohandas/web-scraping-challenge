@@ -1,11 +1,12 @@
+# Dependencies
 import pandas as pd
 from splinter import Browser
-from bs4 import BeautifulSoup bs
+from bs4 import BeautifulSoup as bs
 from webdriver_manager.chrome import ChromeDriverManager
 
-
 # Set executable path and initialize chrome browser
-executable_path = {'executable_path': ChromeDriverManager().install()}
+executable_path = {"executable_path": r"C:\Users\Soni Mohandas\.wdm\drivers\chromedriver\win32\92.0.4515.107\chromedriver.exe"}
+# executable_path = {'executable_path': ChromeDriverManager().install()}
 browser = Browser('chrome', **executable_path, headless=False)
 
 def marsNews(browser):
@@ -34,7 +35,7 @@ def marsImage(browser):
     # Return featured image
     return featured_image_url
     
-def marsFacts(browser):
+def marsFacts():
     # Pandas to scrape the table containing facts about Mars Diameter, mass, etc
     url = "https://galaxyfacts-mars.com"
     tables = pd.read_html(url)
@@ -76,14 +77,19 @@ def marsHemispheres(browser):
     # Return values
     return hemisphere_image_urls
 
-def scrape(browser):
+def scrape():
+    
+#     executable_path = {'executable_path': ChromeDriverManager().install()}
+    executable_path = {"executable_path": r"C:\Users\Soni Mohandas\.wdm\drivers\chromedriver\win32\92.0.4515.107\chromedriver.exe"}
+    browser = Browser('chrome', **executable_path, headless=False)
+        
     news_title, news_para = marsNews(browser)
     
     featured_image_url = marsImage(browser)
     
-    mars_facts_df = marsFacts(browser)
+    mars_facts_df = marsFacts()
     
-    hemisphere_image_urls = marsHemisphere(browser)
+    hemisphere_image_urls = marsHemispheres(browser)
     
     # Create a dictionary for mars data
     mars_data = {
@@ -91,7 +97,7 @@ def scrape(browser):
         "news_para": news_para,
         "featured_image_url": featured_image_url,
         "mars_facts_df": mars_facts_df,
-        "hemisphere_image_url": hemisphere_image_url
+        "hemisphere_image_url": hemisphere_image_urls
     }
     # Close the browser after scraping
     browser.quit()
